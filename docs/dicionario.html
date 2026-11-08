@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário de dados</title>
+</head>
+<style>
+    caption {
+        text-align: start;
+    }
+
+    th {
+        border-top: #000 solid 3px;
+    }
+
+    th,
+    td {
+        border-bottom: #000 solid 3px;
+        padding: 12px o;
+        width: 25%;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: sans-serif;
+        margin: 20px 0;
+    }
+
+    div {
+        width: 80%;
+        margin: auto;
+    }
+
+    p {
+        background-color: #bddce9;
+        padding: 12px;
+    }
+
+    .notacao {
+        padding: 12px 0;
+        width: 100%;
+        text-align: center;
+        background-color: rgb(234, 225, 215);
+    }
+</style>
+
+<body>
+
+    <div>
+        <table>
+            <caption>
+                Cliente
+                <div class="notacao">CLIENT = @ID_CLIENTE + NM_CLIENTE + NR_CPF_CNPJ + DS_ENDERECO + NR_TELEFONE +
+                    EM_EMAIL</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_CLIENTE</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do cliente.</td>
+                </tr>
+                <tr>
+                    <td>NM_CLIENTE</td>
+                    <td>varchar(120)</td>
+                    <td>Sim</td>
+                    <td>Nome completo ou razão social; identifica o cliente em seus pedidos.</td>
+                </tr>
+                <tr>
+                    <td>NR_CPF_CNPJ</td>
+                    <td>varchar(18)</td>
+                    <td>Sim (unique)</td>
+                    <td>CPF ou CNPJ formatado; garante a validade cadastral para emissão de Notas Fiscais.</td>
+                </tr>
+                <tr>
+                    <td>DS_ENDERECO</td>
+                    <td>varchar(255)</td>
+                    <td>Não</td>
+                    <td>Localização para faturamento ou contato.</td>
+                </tr>
+                <tr>
+                    <td>NR_TELEFONE</td>
+                    <td>varchar(20)</td>
+                    <td>Não</td>
+                    <td>Número de telefone principal.</td>
+                </tr>
+                <tr>
+                    <td>EM_EMAIL</td>
+                    <td>varchar(255)</td>
+                    <td>Sim</td>
+                    <td>Endereço de e-mail principal.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_CLIENTE (clusterizado); Índice Único NR_CPF-CNPJ (evitar duplicidade de CPF/CNPJ); Índice
+            secundário em NM_CLIENTE (agilidade nas buscas por nome).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Pedido
+                <div class="notacao">PEDIDO = @ID_PEDIDO + VL_TOTAL + TP_PAGAMENTO + DS_ENDERECO_ENTREGA + ST_PEDIDO +
+                    DT_PEDIDO + DT_ENTREGA_PREVISTA + DT_SAIDA + VL_TAXA_ENTREGA + D_CLIENTE</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_PEDIDO</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Código identificador único do pedido de venda.</td>
+                </tr>
+                <tr>
+                    <td>VL_TOTAL</td>
+                    <td>decimal(10,2)</td>
+                    <td>Sim</td>
+                    <td>Preço final somado de todos os itens do pedido.</td>
+                </tr>
+                <tr>
+                    <td>TP_PAGAMENTO</td>
+                    <td>varchar(50)</td>
+                    <td>Sim</td>
+                    <td>Forma de pagamento utilizada no pedido.</td>
+                </tr>
+                <tr>
+                    <td>DS_ENDERECO_ENTREGA</td>
+                    <td>varchar(255)</td>
+                    <td>Não</td>
+                    <td>Endereço onde o pedido será entregue.</td>
+                </tr>
+                <tr>
+                    <td>ST_PEDIDO</td>
+                    <td>varchar(50)</td>
+                    <td>Sim</td>
+                    <td>Situação atual do pedido.</td>
+                </tr>
+                <tr>
+                    <td>DT_PEDIDO</td>
+                    <td>datetime</td>
+                    <td>Sim</td>
+                    <td>Data e hora em que o pedido foi realizado.</td>
+                </tr>
+                <tr>
+                    <td>DT_ENTREGA_PREVISTA</td>
+                    <td>date</td>
+                    <td>Sim</td>
+                    <td>Data prevista para a entrega do pedido.</td>
+                </tr>
+                <tr>
+                    <td>DT_SAIDA</td>
+                    <td>datetime</td>
+                    <td>Não</td>
+                    <td>Data e hora em que o pedido saiu para entrega.</td>
+                </tr>
+                <tr>
+                    <td>VL_TAXA_ENTREGA</td>
+                    <td>decimal(10,2)</td>
+                    <td>Não</td>
+                    <td>Valor da taxa de entrega.</td>
+                </tr>
+                <tr>
+                    <td>ID_CLIENTE</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Identificador único do cliente solicitante.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_PEDIDO (clusterizado); FK ID_CLIENTE; Índice Único NR_CPF-CNPJ (evitar duplicidade de
+            CPF/CNPJ); Índice
+            secundário DT_PEDIDO, ST_PEDIDO (acelera relatórios de vendas e filtros por situação).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Nota_fiscal
+                <div class="notacao">NOTA_FISCAL = @ID_NOTA_FISCAL + DT_EMISSAO + ST_NOTA + ID_PEDIDO</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_NOTA_FISCAL</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do documento fiscal.</td>
+                </tr>
+                <tr>
+                    <td>DT_EMISSAO</td>
+                    <td>datetime</td>
+                    <td>Sim</td>
+                    <td>Data e hora em que a nota fiscal foi emitida.</td>
+                </tr>
+                <tr>
+                    <td>ST_NOTA</td>
+                    <td>boolean</td>
+                    <td>Sim</td>
+                    <td>Indica se a nota fiscal está ativa.</td>
+                </tr>
+                <tr>
+                    <td>ID_PEDIDO</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código identificador do pedido vinculado.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_NOTA_FISCAL (clusterizado); Índice Único / FK (acelera a consulta do documento fiscal).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Produto
+                <div class="notacao">PRODUTO=@ID_PRODUTO+NM_PRODUTO+DS_PRODUTO+(QT_ESTOQUE_MINIMO)</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_PRODUTO</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do produto.</td>
+                </tr>
+                <tr>
+                    <td>NM_PRODUTO</td>
+                    <td>varchar(150)</td>
+                    <td>Sim</td>
+                    <td>Nome comercial do item.</td>
+                </tr>
+                <tr>
+                    <td>DS_PRODUTO</td>
+                    <td>varchar(2000)</td>
+                    <td>Sim</td>
+                    <td>Descrição detalhada do produto.</td>
+                </tr>
+                <tr>
+                    <td>QT_ESTOQUE_MINIMO</td>
+                    <td>integer</td>
+                    <td>Não</td>
+                    <td>Quantidade de segurança abaixo da qual o sistema deve alertar para reposição.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_PRODUTO (clusterizado); Índice
+            secundário NM_PRODUTO (facilitar na consulta de produtos por nome).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Producao
+                <div class="notacao">PRODUCAO=@ID_PRODUCAO+ID_FORMULA+ID_PRODUTO+ID_LOTE</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_PRODUCAO</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da ordem de produção.</td>
+                </tr>
+                <tr>
+                    <td>ID_FORMULA</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código da fórmula utilizada na produção.</td>
+                </tr>
+                <tr>
+                    <td>ID_PRODUTO</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código do produto gerado.</td>
+                </tr>
+                <tr>
+                    <td>ID_LOTE</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código do lote fabricado.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_PRODUCAO (clusterizado); FKs ID_FORMULA ,ID_PRODUTO, ID_LOTE (otimizam as opearações de
+            rastreabilidade).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Lote
+                <div class="notacao">LOTE=@ID_LOTE+(DT_VALIDADE)+QT_LOTE+(DT_FABRICACAO)+ST_LOTE+ID_PRODUTO</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_LOTE</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do lote.</td>
+                </tr>
+                <tr>
+                    <td>DT_VALIDADE</td>
+                    <td>date</td>
+                    <td>Não</td>
+                    <td>Data em que o lote vence.</td>
+                </tr>
+                <tr>
+                    <td>QT_LOTE</td>
+                    <td>integer</td>
+                    <td>Sim</td>
+                    <td>Volume de itens gerados naquele lote específico.</td>
+                </tr>
+                <tr>
+                    <td>DT_FABRICACAO</td>
+                    <td>date</td>
+                    <td>Não</td>
+                    <td>Data em que o lote foi fabricado.</td>
+                </tr>
+                <tr>
+                    <td>ST_LOTE</td>
+                    <td>varchar(50)</td>
+                    <td>Sim</td>
+                    <td>Situação do lote (ex: ativo, vencido, em produção).</td>
+                </tr>
+                <tr>
+                    <td>ID_PRODUTO</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código do produto a que este lote pertence.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_LOTE (clusterizado); FK ID_PRODUTO (expeficifica do que que é aquele lote); Índice
+            secundário em DT_VALIDADE (alertas de lotes próximos ao vencimento).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Formula
+                <div class="notacao">FORMULA=@ID_FORMULA+DT_EMISSAO+NR_VERSAO+ST_FORMULA+ID_PRODUTO</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_FORMULA</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da fórmula.</td>
+                </tr>
+                <tr>
+                    <td>DT_EMISSAO</td>
+                    <td>date</td>
+                    <td>Sim</td>
+                    <td>Data em que a fórmula foi emitida.</td>
+                </tr>
+                <tr>
+                    <td>NR_VERSAO</td>
+                    <td>varchar(10)</td>
+                    <td>Sim (unique)</td>
+                    <td>Edição da fórmula (útil para rastrear alterações de ingredientes).</td>
+                </tr>
+                <tr>
+                    <td>ST_FORMULA</td>
+                    <td>boolean</td>
+                    <td>Sim</td>
+                    <td>Situação da receita (ex: ativa, obsoleta, em teste).</td>
+                </tr>
+                <tr>
+                    <td>ID_PRODUTO</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código identificador do item final de venda.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_FORMULA (clusterizado); Índice Único NR_VERSAO ( para garantir que seja possivel recuperar formulas antigas); FK ID_PRODUTO (localiza as formulas associada a cada produto).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Maquina
+                <div class="notacao">MAQUINA=@ID_MAQUINA+ST_MAQUINA+TP_MAQUINA+(QT_CAPACIDADE_MAX)</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_MAQUINA</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da máquina.</td>
+                </tr>
+                <tr>
+                    <td>ST_MAQUINA</td>
+                    <td>boolean</td>
+                    <td>Sim</td>
+                    <td>Estado operacional (ex: em operação, manutenção, ociosa).</td>
+                </tr>
+                <tr>
+                    <td>TP_MAQUINA</td>
+                    <td>varchar(225)</td>
+                    <td>Sim</td>
+                    <td>Tipo ou modelo de máquina.</td>
+                </tr>
+                <tr>
+                    <td>QT_CAPACIDADE_MAX</td>
+                    <td>integer</td>
+                    <td>Não</td>
+                    <td>Quantidade máxima de itens que a máquina pode processar simultaneamente.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_MAQUINA (clusterizado); Índice secundário ST_MAQUINA (agilidade ao filtrar maquinas ativas ou inativas).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Materia_prima
+                <div class="notacao">MATERIA_PRIMA=@ID_MATERIA_PRIMA+NM_MATERIA_PRIMA+DS_MATERIA_PRIMA+(DT_VALIDADE)
+                </div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_MATERIA_PRIMA</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da matéria-prima.</td>
+                </tr>
+                <tr>
+                    <td>NM_MATERIA_PRIMA</td>
+                    <td>varchar(225)</td>
+                    <td>Sim</td>
+                    <td>Nome do insumo (Ex: Açúcar, Plástico, Ferro).</td>
+                </tr>
+                <tr>
+                    <td>DS_MATERIA_PRIMA</td>
+                    <td>varchar(225)</td>
+                    <td>Sim</td>
+                    <td>Descrição do insumo.</td>
+                </tr>
+                <tr>
+                    <td>DT_VALIDADE</td>
+                    <td>date</td>
+                    <td>Não</td>
+                    <td>Data limite para a utilização segura do insumo.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_MATERIA_PRIMA (clusterizado); Índice
+            secundário em NM_MATERIA_PRIMA (acelera a busca por nomes de insumo).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Fornecedor
+                <div class="notacao">
+                    FORNECEDOR=@ID_FORNECEDOR+(DS_FORNECEDOR)+NR_CNPJ+NM_FORNECEDOR+DS_COMPROVANTE_COMPRA</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_FORNECEDOR</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do fornecedor.</td>
+                </tr>
+                <tr>
+                    <td>DS_FORNECEDOR</td>
+                    <td>varchar(225)</td>
+                    <td>Não</td>
+                    <td>Ramos de atividade ou notas internas sobre o fornecedor.</td>
+                </tr>
+                <tr>
+                    <td>NR_CNPJ</td>
+                    <td>varchar(18)</td>
+                    <td>Sim (unique)</td>
+                    <td>Registro nacional de pessoa jurídica do fornecedor.</td>
+                </tr>
+                <tr>
+                    <td>NM_FORNECEDOR</td>
+                    <td>varchar(150)</td>
+                    <td>Sim</td>
+                    <td>Nome ou razão social do fornecedor.</td>
+                </tr>
+                <tr>
+                    <td>DS_COMPROVANTE_COMPRA</td>
+                    <td>varchar(255)</td>
+                    <td>Sim</td>
+                    <td>Caminho do documento que comprova a compra do insumo.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_FORNECEDOR (clusterizado); Índice Único NR_CNPJ (evitar duplicidade de fornecedores); Índice secundário NM_FORNECEDOR (agilidade nas buscas por razão social/nome).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Estoque
+                <div class="notacao">ESTOQUE=@ID_ESTOQUE+DS_LOCALIDADE_NO_ESTOQUE</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_ESTOQUE</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do local de estoque.</td>
+                </tr>
+                <tr>
+                    <td>DS_LOCALIDADE_NO_ESTOQUE</td>
+                    <td>varchar(225)</td>
+                    <td>Sim</td>
+                    <td>Corredor, prateleira ou morada física exata do item.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_ESTOQUE (clusterizado).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Movimento_estoque
+                <div class="notacao">
+                    MOVIMENTO_ESTOQUE=@ID_MOVIMENTACAO+TP_MOVIMENTACAO+DT_MOVIMENTACAO+QT_MOVIMENTACAO+(DS_MOTIVO_MOVIMENTACAO)+ID_ESTOQUE
+                </div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_MOVIMENTACAO</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da movimentação de estoque.</td>
+                </tr>
+                <tr>
+                    <td>TP_MOVIMENTACAO</td>
+                    <td>varchar(50)</td>
+                    <td>Sim</td>
+                    <td>Sentido do fluxo (Ex: Entrada por produção, Saída por venda).</td>
+                </tr>
+                <tr>
+                    <td>DT_MOVIMENTACAO</td>
+                    <td>datetime</td>
+                    <td>Sim</td>
+                    <td>Dia e hora da operação.</td>
+                </tr>
+                <tr>
+                    <td>QT_MOVIMENTACAO</td>
+                    <td>integer</td>
+                    <td>Sim</td>
+                    <td>Quantidade de itens movimentados.</td>
+                </tr>
+                <tr>
+                    <td>DS_MOTIVO_MOVIMENTACAO</td>
+                    <td>varchar(225)</td>
+                    <td>Não</td>
+                    <td>Justificativa para a movimentação.</td>
+                </tr>
+                <tr>
+                    <td>ID_ESTOQUE</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Identificador do registro de estoque afetado.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_MOVIMENTACAO (clusterizado); FK ID_ESTOQUE (vincular o historico de movimentos ao local do estoque); Índice
+            secundário em DT_MOVIMENTACAO (otimização de relatorios e inventário).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Entrega
+                <div class="notacao">ENTREGA=@ID_ENTREGA+DT_ENTREGA+NR_CODIGO_RASTREIO+ID_PEDIDO</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_ENTREGA</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da entrega.</td>
+                </tr>
+                <tr>
+                    <td>DT_ENTREGA</td>
+                    <td>datetime</td>
+                    <td>Sim</td>
+                    <td>Data real em que o cliente recebeu o produto.</td>
+                </tr>
+                <tr>
+                    <td>NR_CODIGO_RASTREIO</td>
+                    <td>varchar(50)</td>
+                    <td>Sim</td>
+                    <td>Código para acompanhar o transporte.</td>
+                </tr>
+                <tr>
+                    <td>ID_PEDIDO</td>
+                    <td>integer</td>
+                    <td>Sim (FK)</td>
+                    <td>Código do pedido associado à entrega.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_ENTREGA (clusterizado); FK ID_PEDIDO (acelera a consulta por meio do pedido).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Veiculo
+                <div class="notacao">VEICULO=@ID_VEICULO+NR_PLACA_VEICULO+DS_MODELO_VEICULO</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_VEICULO</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único do veículo.</td>
+                </tr>
+                <tr>
+                    <td>NR_PLACA_VEICULO</td>
+                    <td>varchar(7)</td>
+                    <td>Sim</td>
+                    <td>Matrícula/Placa legal do veículo.</td>
+                </tr>
+                <tr>
+                    <td>DS_MODELO_VEICULO</td>
+                    <td>varchar(100)</td>
+                    <td>Sim</td>
+                    <td>Marca e modelo (Ex: Fiorino, Caminhão Baú).</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_VEICULO (clusterizado); Índice Único NR_PLACA_VEICULO (indetificar em caso de acidentes).</p>
+    </div><br>
+    <div>
+        <table>
+            <caption>
+                Embalagem
+                <div class="notacao">EMBALAGEM=@ID_EMBALAGEM+TP_EMBALAGEM+DS_TAMANHO_EMBALAGEM</div>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Tipo físico</th>
+                    <th>Obrigatório</th>
+                    <th>Significado e relevância</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID_EMBALAGEM</td>
+                    <td>integer</td>
+                    <td>Sim (PK)</td>
+                    <td>Identificador único da embalagem.</td>
+                </tr>
+                <tr>
+                    <td>TP_EMBALAGEM</td>
+                    <td>varchar(100)</td>
+                    <td>Sim</td>
+                    <td>Material/Formato (Ex: Caixa de papelão, lata de tinta).</td>
+                </tr>
+                <tr>
+                    <td>DS_TAMANHO_EMBALAGEM</td>
+                    <td>varchar(50)</td>
+                    <td>Sim</td>
+                    <td>Dimensões ou capacidade de volume.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Índices: PK ID_EMBALAGEM (clusterizado).</p>
+    </div><br>
+</body>
+
+</html>
