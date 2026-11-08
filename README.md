@@ -37,7 +37,7 @@ A escolha da organização decorreu do acesso aos responsáveis e à rotina oper
 
 **Registro fotográfico da organização:**
 
-![Registro fotográfico da fachada da JV Indústria](img/fachada_jv_industria.jpeg)
+![Registro fotográfico da fachada da JV Indústria](levantamento/membro_na_fachada.jpeg)
 
 *Figura 1 — Registro fotográfico na entrada da JV Indústria, em Jacareí/SP. Fonte: acervo do grupo.*
 
@@ -145,7 +145,7 @@ O SQL também contém validações para quantidades positivas, valores monetári
 
 ### 1.1.8 Revisão do DER conceitual
 
-![Diagrama Entidade-Relacionamento conceitual da JV Indústria](img/der_conceitual.png)
+![Diagrama Entidade-Relacionamento conceitual da JV Indústria](levantamento/der_conceitual.png)
 
 | Elemento de modelagem | Representação no modelo implementado | Justificativa |
 |---|---|---|
