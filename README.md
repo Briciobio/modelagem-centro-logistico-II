@@ -287,7 +287,7 @@ A descrição das chaves encontra-se na seção **1.3** e as restrições de int
 
 # 3. Script SQL Completo
 
-**Arquivo da implementação da Entrega 2:** [script.sql](script.sql)
+**Arquivo da implementação da Entrega 2:** [script.sql](docs/script.sql)
 
 O banco de dados foi estruturado para **MySQL 8.0.16 ou superior**. O arquivo contempla **20 tabelas**, **23 chaves estrangeiras** e **31 restrições `CHECK`**, além de chaves primárias, valores padrão e restrições de unicidade. Os dados utilizados nas instruções `INSERT` são fictícios.
 
